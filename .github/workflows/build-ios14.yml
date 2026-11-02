@@ -106,6 +106,18 @@ jobs:
             echo "after: "; grep -n "platforms" -A6 "$f" | head -8
           done
 
+      - name: Override SPM iOS14 adapters
+        run: |
+          SRC=build/SourcePackages/checkouts/SwiftAnthropic/Sources/Anthropic/Private/Networking/URLSessionHTTPClientAdapter.swift
+          if [ -f "$SRC" ]; then
+            cp scripts/spm-overrides/URLSessionHTTPClientAdapter.swift "$SRC"
+            echo "overridden: $SRC"
+          else
+            echo "::error::SwiftAnthropic adapter not found at $SRC"
+            find build/SourcePackages/checkouts -name "URLSessionHTTPClientAdapter.swift" 2>/dev/null
+            exit 1
+          fi
+
       - name: Build (unsigned)
         run: |
           set -o pipefail
