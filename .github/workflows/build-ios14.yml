@@ -96,6 +96,16 @@ jobs:
         run: |
           cp src/ios/Configs/ProviderCustomization.xcconfig.example src/ios/Configs/ProviderCustomization.xcconfig || true
 
+      - name: Relax SPM platform requirements
+        run: |
+          set -x
+          xcodebuild -project src/ios/Minis.xcodeproj -scheme Minis -resolvePackageDependencies -derivedDataPath build 2>&1 | tail -5 || true
+          find build/SourcePackages/checkouts -maxdepth 2 -name Package.swift 2>/dev/null | while read f; do
+            echo "before: $f"; grep -n "platforms" -A6 "$f" | head -8
+            sed -i '' -E 's/\.iOS\(\.v1[5-9]\)/.iOS(.v14)/g; s/\.iOS\("1[5-9]\.0"\)/.iOS("14.0")/g; s/\.iOS\(\.v1[5-9]\.0\)/.iOS(.v14)/g' "$f"
+            echo "after: "; grep -n "platforms" -A6 "$f" | head -8
+          done
+
       - name: Build (unsigned)
         run: |
           set -o pipefail
