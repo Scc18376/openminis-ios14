@@ -41,6 +41,9 @@ jobs:
           path: |
             deps/frameworks
             deps/resources
+            deps/include
+            deps/libs
+            deps/build-ios
           key: minis-deps-${{ hashFiles('deps/build_*.sh') }}
 
       - uses: actions/setup-go@v5
@@ -90,6 +93,9 @@ jobs:
           path: |
             deps/frameworks
             deps/resources
+            deps/include
+            deps/libs
+            deps/build-ios
           key: minis-deps-${{ hashFiles('deps/build_*.sh') }}
 
       - name: Provider config
