@@ -1358,7 +1358,7 @@ private struct UserAskInputSheet: View {
     let onDone: (String) -> Void
     let onCancel: () -> Void
     @State private var text = ""
-    @FocusState private var focused: Bool
+    @State private var focused: Bool = false
     @ObservedObject private var center = UserAskCenter.shared
     @ObservedObject private var fonts = FontSettings.shared
     private var t: UserAskTypography { .current }

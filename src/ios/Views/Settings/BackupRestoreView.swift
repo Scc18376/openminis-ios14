@@ -45,7 +45,7 @@ struct BackupRestoreView: View {
     @State private var inspectTask: Task<Void, Never>?
     @State private var isWorking = false
     @State private var statusText = ""
-    @FocusState private var passphraseFocused: Bool
+    @State private var passphraseFocused: Bool = false
     @State private var errorText: String?
     @State private var report: BackupImporter.Report?
     @State private var showConfirm = false

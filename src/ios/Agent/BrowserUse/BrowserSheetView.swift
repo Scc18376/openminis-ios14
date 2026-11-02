@@ -9,7 +9,7 @@ struct BrowserSheetView: View {
     @State private var addressText: String = ""
     @State private var showHistory = false
     @State private var isFullscreen = false
-    @FocusState private var addressFocused: Bool
+    @State private var addressFocused: Bool = false
 
     private var manager: BrowserUseManager? { pool.activeManager }
 

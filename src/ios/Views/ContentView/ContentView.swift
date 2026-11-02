@@ -1472,7 +1472,7 @@ struct ContentView: View {
 
     // Used by ContentView+FAB.swift (and the search field focus).
     @State var fabDidDrag = false
-    @FocusState var searchFocused: Bool
+    @State private var searchFocused: Bool = false
 
     @State var searchDragOffset: CGFloat = 0
     @State var searchDidDrag = false

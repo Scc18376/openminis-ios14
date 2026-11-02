@@ -524,7 +524,7 @@ struct SubAgentActionsCard: View {
     @State private var draft = ""
     @State private var sentCount = 0
     @State private var confirmStop = false
-    @FocusState private var focused: Bool
+    @State private var focused: Bool = false
 
     var body: some View {
         AgentDetailCard(title: AppLocalized("Actions"), icon: "slider.horizontal.3") {

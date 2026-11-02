@@ -214,3 +214,80 @@ public struct MinisTimelineView<Content: View>: View {
             }
     }
 }
+
+// MARK: - overlay(alignment:content:) (iOS 15+)
+
+public extension View {
+    @inlinable
+    func overlay<V: View>(alignment: Alignment = .center, @ViewBuilder content: () -> V) -> some View {
+        self.overlay(content(), alignment: alignment)
+    }
+}
+
+// MARK: - .focused() (iOS 15+) — iOS14 降级为 no-op
+
+public extension View {
+    @inlinable
+    func focused<Value>(_ binding: Binding<Value>) -> some View { self }
+}
+
+// MARK: - Button role (iOS 15+)
+
+public struct MinisButtonRole: Equatable {
+    public static let destructive = MinisButtonRole()
+    public static let cancel = MinisButtonRole()
+    public init() {}
+}
+
+// MARK: - .task(id:) (iOS 15+)
+
+public extension View {
+    @inlinable
+    func task<V: Equatable>(id value: V, priority: TaskPriority = .userInitiated,
+                            _ action: @escaping @Sendable () async -> Void) -> some View {
+        modifier(_MinisTaskIDModifier(value: value, priority: priority, action: action))
+    }
+}
+
+struct _MinisTaskIDModifier<V: Equatable>: ViewModifier {
+    let value: V
+    let priority: TaskPriority
+    let action: @Sendable () async -> Void
+    @State private var task: Task<Void, Never>?
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear { schedule() }
+            .onChange(of: value) { _ in schedule() }
+            .onDisappear { task?.cancel(); task = nil }
+    }
+
+    private func schedule() {
+        task?.cancel()
+        task = Task(priority: priority) { await action() }
+    }
+}
+
+// MARK: - 新颜色（iOS 15+）
+
+public extension Color {
+    static var mint: Color { Color(UIColor.systemMint) }
+    static var teal: Color { Color(UIColor.systemTeal) }
+    static var indigo: Color { Color(UIColor.systemIndigo) }
+    static var cyan: Color { Color(UIColor.systemCyan) }
+    static var brown: Color { Color(UIColor.systemBrown) }
+    static var quaternary: Color { Color(UIColor.quaternaryLabel) }
+}
+
+// MARK: - Alert with presenting (iOS 15+) — 降级
+
+public extension View {
+    func alert<Item, A: View>(_ title: String,
+                              isPresented: Binding<Bool>,
+                              presenting item: Item?,
+                              @ViewBuilder actions: (Item) -> A) -> some View {
+        self.alert(isPresented: isPresented) {
+            Alert(title: Text(title), dismissButton: .default(Text("OK")))
+        }
+    }
+}

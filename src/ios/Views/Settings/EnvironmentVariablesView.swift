@@ -247,7 +247,7 @@ private struct EnvVarFormSheet: View {
     @State private var note = ""
     @State private var enabled = true
     @State private var showingDeleteConfirm = false
-    @FocusState private var focusedField: Field?
+    @State private var focusedField: Field? = nil
 
     private enum Field: Hashable { case key, value, note }
 

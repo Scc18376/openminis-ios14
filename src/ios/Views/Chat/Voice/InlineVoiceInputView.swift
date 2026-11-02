@@ -39,7 +39,7 @@ struct InlineVoiceInputView: View {
     @State private var voiceUsageHintGeneration = 0
     /// Tear down voice mode (X button / done).
 
-    @FocusState private var editFocused: Bool
+    @State private var editFocused: Bool = false
     /// [T-voice-bg-fg-gap] Last global frame this panel reported — read by the
     /// keyboard/lifecycle log lines so position is visible at event edges.
     @State private var lastPanelFrame: CGRect = .zero

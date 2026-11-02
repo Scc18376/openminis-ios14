@@ -78,7 +78,7 @@ struct FolderPickerSheet: View {
 
     @State private var newFolderName = ""
     @State private var newFolderDesc = ""
-    @FocusState private var nameFieldFocused: Bool
+    @State private var nameFieldFocused: Bool = false
     @Environment(\.dismiss) private var dismiss
     @State private var suggesting = false
     @State private var suggestedMerge: (folderId: String, folderName: String)?

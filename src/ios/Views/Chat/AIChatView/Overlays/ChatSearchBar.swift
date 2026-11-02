@@ -20,7 +20,7 @@ struct ChatSearchBar: View {
     @ObservedObject var search: ChatSearchController
     /// Called after Done: the page restores its composer.
     var onDone: () -> Void
-    @FocusState private var fieldFocused: Bool
+    @State private var fieldFocused: Bool = false
 
     private var hasQuery: Bool { !search.normalizedQuery.isEmpty }
     private var hasResults: Bool { search.matchCount > 0 }
