@@ -72,6 +72,13 @@ jobs:
         env:
           BUILDCONFIGURATION: Release
 
+      - name: Save frameworks cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: deps/frameworks
+          key: minis-deps-${{ hashFiles('deps/build_*.sh') }}
+
       - name: Provider config
         run: |
           cp src/ios/Configs/ProviderCustomization.xcconfig.example src/ios/Configs/ProviderCustomization.xcconfig || true
