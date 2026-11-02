@@ -157,6 +157,14 @@ fileprivate func sanitizeForDisplay(_ text: String) -> String {
     return wrapped
 }
 
+fileprivate func shellLineText(_ text: String) -> Text {
+    if #available(iOS 15.0, *) {
+        return shellLineText(text)
+    }
+    return Text(sanitizeForDisplay(text))
+}
+
+@available(iOS 15.0, *)
 fileprivate func attributedShellLine(_ text: String) -> AttributedString {
     // Build the AttributedString from an NSAttributedString so we can use
     // absolute NSRange offsets from NSDataDetector directly. This avoids
@@ -1746,7 +1754,7 @@ struct ToolLiveSheet: View {
                                 .padding(.top, 14)
 
                             LazyRevealChunks(chunks: chunks, resetKey: block.id) { text in
-                                Text(attributedShellLine(text))
+                                shellLineText(text)
                                     .font(.system(size: 13, design: .monospaced))
                                     .foregroundColor(accentColor)
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -2519,7 +2527,7 @@ struct ToolLiveSheet: View {
                             .padding(.top, 14)
 
                         ForEach(chunks, id: \.id) { chunk in
-                            Text(attributedShellLine(chunk.text))
+                            shellLineText(chunk.text)
                                 .font(.system(size: 13, design: .monospaced))
                                 .foregroundColor(accentColor)
                                 .frame(maxWidth: .infinity, alignment: .leading)

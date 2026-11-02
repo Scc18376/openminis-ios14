@@ -382,8 +382,12 @@ struct SessionRow: View, Equatable {
     private func highlightedText(_ text: String, font: Font, color: Color) -> some View {
         if let query = highlightQuery, !query.isEmpty,
            SearchKeywords.firstHit(in: text, terms: SearchKeywords.terms(query)) != nil {
-            Text(Self.highlightedAttributedString(text: text, query: query, baseColor: color))
-                .font(font)
+            if #available(iOS 15.0, *) {
+                Text(Self.highlightedAttributedString(text: text, query: query, baseColor: color))
+                    .font(font)
+            } else {
+                Text(text).font(font).foregroundColor(color)
+            }
         } else {
             Text(text).font(font).foregroundStyle(color)
         }
@@ -396,12 +400,14 @@ struct SessionRow: View, Equatable {
     /// `highlightedAnnotatedString` (commit 545d585) — same theme-aware
     /// tint, same case-insensitive match, same span-style approach.
     /// (T-search-highlight 8edb74f2)
+    @available(iOS 15.0, *)
     static func highlightedAttributedString(text: String, query: String, baseColor: Color) -> AttributedString {
         PerfTrace.measure("SessionRow.highlightedAttributedString") {
             highlightedAttributedStringImpl(text: text, query: query, baseColor: baseColor)
         }
     }
 
+    @available(iOS 15.0, *)
     private static func highlightedAttributedStringImpl(text: String, query: String, baseColor: Color) -> AttributedString {
         var attr = AttributedString(text)
         attr.foregroundColor = baseColor

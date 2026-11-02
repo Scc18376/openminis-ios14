@@ -1224,9 +1224,15 @@ struct InlineVoiceInputView: View {
     @ViewBuilder
     private var statusLineText: some View {
         if let hint = voiceUsageHint {
-            Text(Self.highlightedUsageLine(hint))
-                .transition(.opacity)
-                .id("usage-\(hint.generation)")
+            if #available(iOS 15.0, *) {
+                Text(Self.highlightedUsageLine(hint))
+                    .transition(.opacity)
+                    .id("usage-\(hint.generation)")
+            } else {
+                Text(hint.text)
+                    .transition(.opacity)
+                    .id("usage-\(hint.generation)")
+            }
         } else {
             Text(stateLabel)
                 .transition(.opacity)
@@ -1239,6 +1245,7 @@ struct InlineVoiceInputView: View {
     static let usageHintDebounce: TimeInterval = 0.4
 
     /// Applies the panel-side tint to the number segments.
+    @available(iOS 15.0, *)
     static func highlightedUsageLine(_ hint: ContextUsageHint) -> AttributedString {
         var attributed = AttributedString(hint.text)
         if let tone = usageTint(for: hint.tier) {

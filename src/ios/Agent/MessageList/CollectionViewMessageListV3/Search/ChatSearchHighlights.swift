@@ -203,7 +203,11 @@ struct SearchHighlightText: View {
 
         var body: some View {
             if let state = token.state {
-                Text(SearchHighlightText.attributed(text, searchOffset: searchOffset, state: state, dimmed: dimmed))
+                if #available(iOS 15.0, *) {
+                    Text(SearchHighlightText.attributed(text, searchOffset: searchOffset, state: state, dimmed: dimmed))
+                } else {
+                    Text(text)
+                }
             } else {
                 Text(text)
             }
@@ -213,6 +217,7 @@ struct SearchHighlightText: View {
     /// `text` with its first `state.drawLimit` occurrences backed in yellow
     /// and the current one in orange. Built piecewise, so its cost is linear
     /// in the text however many highlights it carries.
+    @available(iOS 15.0, *)
     static func attributed(_ text: String, searchOffset: Int, state: ChatSearchUnitHighlight,
                            dimmed: Bool) -> AttributedString {
         let start = text.index(text.startIndex, offsetBy: min(max(searchOffset, 0), text.count))
