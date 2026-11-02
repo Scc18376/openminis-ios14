@@ -1,0 +1,93 @@
+name: Build iOS 14.3 IPA
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_deps:
+        description: "跳过 native deps 编译"
+        type: boolean
+        default: true
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 240
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+
+      - name: Apply iOS 14.3 migration patch
+        run: |
+          if [ ! -f ios14-migration.patch ]; then
+            echo "::error::missing ios14-migration.patch"
+            exit 1
+          fi
+          git apply -v ios14-migration.patch
+          grep -o 'IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*' src/ios/Minis.xcodeproj/project.pbxproj | sort -u
+          ls src/ios/Compat/
+
+      - name: Select Xcode
+        run: |
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
+
+      - name: Build native deps
+        if: ${{ !inputs.skip_deps }}
+        run: |
+          cd deps
+          ./build_lame.sh || echo "::warning::lame failed"
+          ./build_ffmpeg.sh || echo "::warning::ffmpeg failed"
+          ./build_ish.sh
+        env:
+          BUILDCONFIGURATION: Release
+
+      - name: Provider config
+        run: |
+          cp src/ios/Configs/ProviderCustomization.xcconfig.example src/ios/Configs/ProviderCustomization.xcconfig || true
+
+      - name: Build (unsigned)
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project src/ios/Minis.xcodeproj \
+            -scheme Minis \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            ENABLE_BITCODE=NO \
+            ONLY_ACTIVE_ARCH=NO \
+            ARCHS=arm64 \
+            build 2>&1 | tee build.log | tail -300
+
+      - name: Package unsigned IPA
+        if: success()
+        run: |
+          APP=$(find build/Build/Products/Release-iphoneos -maxdepth 1 -name '*.app' | head -1)
+          echo "APP=$APP"
+          mkdir -p Payload
+          cp -a "$APP" Payload/
+          python3 scripts/lower_minos.py Payload 14.3
+          brew install ldid || true
+          find Payload -type f -exec sh -c 'file "$1" | grep -q Mach-O && ldid -S "$1"' _ {} \; || true
+          zip -qry Minis-iOS14.3-unsigned.ipa Payload
+          ls -lh Minis-iOS14.3-unsigned.ipa
+
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: Minis-iOS14.3-unsigned
+          path: Minis-iOS14.3-unsigned.ipa
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: build-log
+          path: build.log
+          if-no-files-found: warn
