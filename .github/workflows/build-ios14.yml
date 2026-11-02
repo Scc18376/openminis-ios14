@@ -36,10 +36,15 @@ jobs:
           path: deps/frameworks
           key: minis-deps-${{ hashFiles('deps/build_*.sh') }}
 
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.5'
+          cache-dependency-path: deps/rclone-mobile/go.sum
+
       - name: Install build tools
         if: ${{ !inputs.skip_deps }}
         run: |
-          brew install pkg-config ninja llvm libarchive nasm go || true
+          brew install pkg-config ninja llvm libarchive nasm || true
           pip3 install --break-system-packages meson || pip3 install meson || true
           echo "--- versions ---"
           ninja --version || true
