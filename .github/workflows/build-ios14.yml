@@ -71,9 +71,6 @@ jobs:
           ./build_ish.sh
           echo "--- frameworks ---"
           ls -d frameworks/*.xcframework 2>/dev/null || true
-          echo "--- preparing alpine rootfs ---"
-          ./prepare_alpine_rootfs.sh
-          ls -la resources/ | head
         env:
           BUILDCONFIGURATION: Release
 
@@ -85,6 +82,16 @@ jobs:
             deps/frameworks
             deps/resources
           key: minis-deps-${{ hashFiles('deps/build_*.sh') }}
+
+      - name: Prepare alpine rootfs
+        run: |
+          cd deps
+          if [ -f resources/alpine-rootfs.zip ]; then
+            echo "rootfs cached"
+          else
+            ./prepare_alpine_rootfs.sh
+          fi
+          ls -la resources/ | head -10
 
       - name: Provider config
         run: |
