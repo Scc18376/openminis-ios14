@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 350
 
     steps:
@@ -25,10 +25,15 @@ jobs:
           ls src/ios/Compat/
           grep -c "CompatCore.swift" src/ios/Minis.xcodeproj/project.pbxproj
 
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
       - name: Select Xcode
         run: |
           xcodebuild -version
           xcrun --sdk iphoneos --show-sdk-version
+          ls /Applications | grep -i xcode
 
       - name: Cache native frameworks
         uses: actions/cache@v4
