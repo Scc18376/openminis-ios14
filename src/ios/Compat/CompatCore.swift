@@ -315,3 +315,59 @@ public extension TextField where Label == Text {
         self.init(titleKey, text: text)
     }
 }
+
+// MARK: - 第五批 shim
+
+public enum MinisScrollIndicatorVisibility { case automatic, visible, hidden }
+
+public extension View {
+    @inlinable
+    func scrollIndicators(_ visibility: MinisScrollIndicatorVisibility) -> some View { self }
+    @inlinable
+    func scrollIndicators(_ visibility: MinisScrollIndicatorVisibility, axes: Int) -> some View { self }
+    @inlinable
+    func background<S: Shape, T: ShapeStyle>(_ style: T, in shape: S, fillStyle: FillStyle = FillStyle()) -> some View {
+        self.background(style, in: shape)
+    }
+    @inlinable
+    func background<S: Shape>(_ color: Color, in shape: S) -> some View {
+        self.background(color, in: shape)
+    }
+    @inlinable
+    func symbolRenderingMode(_ mode: MinisSymbolRenderingMode) -> some View { self }
+    @inlinable
+    func onGeometryChange<T: Equatable>(for type: T.Type, of transform: @escaping (GeometryProxy) -> T, action: @escaping (T) -> Void) -> some View {
+        self
+    }
+}
+
+public enum MinisSymbolRenderingMode { case monochrome, hierarchical, palette, multicolor }
+
+public struct MinisOpenURLResult {
+    public static var handled: MinisOpenURLResult { .init() }
+    public static var discarded: MinisOpenURLResult { .init() }
+    public static func systemAction(_ url: URL) -> MinisOpenURLResult { .init() }
+}
+
+public enum MinisToolbarItemPlacement {
+    public static var keyboard: MinisToolbarItemPlacement { .init() }
+    public static var automatic: MinisToolbarItemPlacement { .init() }
+}
+
+public extension View {
+    func alert<Item, A: View, M: View>(_ title: String,
+                                      isPresented: Binding<Bool>,
+                                      presenting item: Item?,
+                                      @ViewBuilder actions: (Item) -> A,
+                                      @ViewBuilder message: (Item) -> M) -> some View {
+        self.alert(isPresented: isPresented) {
+            Alert(title: Text(title), dismissButton: .default(Text("OK")))
+        }
+    }
+}
+
+public extension Button {
+    init<S: StringProtocol>(_ title: S, role: MinisButtonRole?, action: @escaping () -> Void) where Label == Text {
+        self.init(action: action) { Text(title) }
+    }
+}
