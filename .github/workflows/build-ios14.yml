@@ -19,15 +19,11 @@ jobs:
           submodules: recursive
           fetch-depth: 1
 
-      - name: Apply iOS 14.3 migration patch
+      - name: Verify iOS 14.3 port
         run: |
-          if [ ! -f ios14-migration.patch ]; then
-            echo "::error::missing ios14-migration.patch"
-            exit 1
-          fi
-          git apply -v ios14-migration.patch
-          grep -o 'IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*' src/ios/Minis.xcodeproj/project.pbxproj | sort -u
+          grep -o "IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*" src/ios/Minis.xcodeproj/project.pbxproj | sort -u
           ls src/ios/Compat/
+          grep -c "CompatCore.swift" src/ios/Minis.xcodeproj/project.pbxproj
 
       - name: Select Xcode
         run: |
