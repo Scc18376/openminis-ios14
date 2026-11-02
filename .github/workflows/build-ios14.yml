@@ -110,7 +110,9 @@ jobs:
         run: |
           SRC=build/SourcePackages/checkouts/SwiftAnthropic/Sources/Anthropic/Private/Networking/URLSessionHTTPClientAdapter.swift
           if [ -f "$SRC" ]; then
+            chmod -R u+w build/SourcePackages/checkouts/SwiftAnthropic
             cp scripts/spm-overrides/URLSessionHTTPClientAdapter.swift "$SRC"
+            chmod u+w "$SRC"
             echo "overridden: $SRC"
           else
             echo "::error::SwiftAnthropic adapter not found at $SRC"
