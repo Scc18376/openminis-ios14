@@ -4,14 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       skip_deps:
-        description: "跳过 native deps 编译"
+        description: "跳过 native deps 编译（用缓存）"
         type: boolean
-        default: true
+        default: false
 
 jobs:
   build:
     runs-on: macos-15
-    timeout-minutes: 240
+    timeout-minutes: 350
 
     steps:
       - uses: actions/checkout@v4
@@ -30,13 +30,33 @@ jobs:
           xcodebuild -version
           xcrun --sdk iphoneos --show-sdk-version
 
+      - name: Cache native frameworks
+        uses: actions/cache@v4
+        with:
+          path: deps/frameworks
+          key: minis-deps-${{ hashFiles('deps/build_*.sh') }}
+
+      - name: Install build tools
+        if: ${{ !inputs.skip_deps }}
+        run: |
+          brew install pkg-config ninja llvm libarchive nasm go || true
+          pip3 install --break-system-packages meson || pip3 install meson || true
+          echo "--- versions ---"
+          ninja --version || true
+          go version || true
+
       - name: Build native deps
         if: ${{ !inputs.skip_deps }}
         run: |
+          set -e
           cd deps
-          ./build_lame.sh || echo "::warning::lame failed"
-          ./build_ffmpeg.sh || echo "::warning::ffmpeg failed"
+          ls frameworks 2>/dev/null || true
+          ./build_lame.sh
+          ./build_ffmpeg.sh
+          ./build_rclone_ios.sh
           ./build_ish.sh
+          echo "--- frameworks ---"
+          ls -d frameworks/*.xcframework 2>/dev/null || true
         env:
           BUILDCONFIGURATION: Release
 
@@ -60,7 +80,7 @@ jobs:
             ENABLE_BITCODE=NO \
             ONLY_ACTIVE_ARCH=NO \
             ARCHS=arm64 \
-            build 2>&1 | tee build.log | tail -300
+            build 2>&1 | tee build.log | tail -250
 
       - name: Package unsigned IPA
         if: success()
