@@ -117,7 +117,7 @@ struct AgentLoopModelsSection: View {
                     if !badges.isEmpty {
                         Text("·")
                             .font(.caption2)
-                            .foregroundStyle(.quaternary)
+                            .foregroundStyle(Color.quaternary)
                         ForEach(badges, id: \.self) { badge in
                             Text(badge)
                                 .font(.system(size: 9, weight: .medium))

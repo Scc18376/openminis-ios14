@@ -1324,7 +1324,7 @@ struct AddProviderView: View {
                 .foregroundStyle(.gray)
         case .kimiCode:
             Image(systemName: "moon.stars")
-                .foregroundStyle(.indigo)
+                .foregroundStyle(Color.indigo)
         case .githubCopilot:
             Image(systemName: "chevron.left.forwardslash.chevron.right")
                 .foregroundStyle(Color.primary)

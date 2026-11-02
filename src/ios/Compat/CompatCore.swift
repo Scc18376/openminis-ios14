@@ -291,3 +291,27 @@ public extension View {
         }
     }
 }
+
+// MARK: - Button(role:) (iOS 15+)
+
+public extension Button {
+    init(role: MinisButtonRole?, action: @escaping () -> Void, @ViewBuilder label: () -> Label) {
+        self.init(action: action, label: label)
+    }
+}
+
+// MARK: - TextField(axis:) (iOS 16+)
+
+public enum MinisAxis { case horizontal, vertical }
+
+public extension TextField {
+    init(_ titleKey: String, text: Binding<String>, axis: MinisAxis) {
+        self.init(titleKey, text: text)
+    }
+}
+
+public extension TextField where Label == Text {
+    init(_ titleKey: String, text: Binding<String>, axis: MinisAxis) {
+        self.init(titleKey, text: text)
+    }
+}

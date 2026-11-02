@@ -22,7 +22,7 @@ struct ModelGroupsView: View {
                     VStack(spacing: 8) {
                         Image(systemName: "square.stack.3d.up")
                             .font(.system(size: 32))
-                            .foregroundStyle(.quaternary)
+                            .foregroundStyle(Color.quaternary)
                         Text("No model groups")
                             .font(.subheadline)
                             .foregroundStyle(Color.secondary)
@@ -392,14 +392,14 @@ private struct GroupRow: View {
                 if group.strategy == .fallback {
                     Text("·")
                         .font(.caption)
-                        .foregroundStyle(.quaternary)
+                        .foregroundStyle(Color.quaternary)
                     Text(group.fallbackStrategy == .always ? AppLocalized("Always") : AppLocalized("Default"))
                         .font(.caption)
                         .foregroundStyle(group.fallbackStrategy == .always ? .orange : .secondary)
                 }
                 Text("·")
                     .font(.caption)
-                    .foregroundStyle(.quaternary)
+                    .foregroundStyle(Color.quaternary)
                 Text(AppLocalized("\(group.memberEntryIds.count) models"))
                     .font(.caption)
                     .foregroundStyle(Color.secondary)

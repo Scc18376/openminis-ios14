@@ -914,7 +914,7 @@ struct InlineVoiceInputView: View {
                     Text(g)
                         .font(.caption2.weight(.medium))
                         .foregroundStyle(Color.secondary)
-                    Text("·").font(.caption2).foregroundStyle(.quaternary)
+                    Text("·").font(.caption2).foregroundStyle(Color.quaternary)
                 }
                 Text(activeModelLabel)
                     .font(.caption2)

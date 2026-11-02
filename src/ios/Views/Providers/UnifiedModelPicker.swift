@@ -1292,7 +1292,7 @@ struct UnifiedModelPicker: View {
                         }
                         Text("·")
                             .font(.caption2)
-                            .foregroundStyle(.quaternary)
+                            .foregroundStyle(Color.quaternary)
                         Text(reason)
                             .font(.caption2)
                             .foregroundStyle(.red.opacity(0.7))
@@ -1491,7 +1491,7 @@ struct UnifiedModelPicker: View {
                             if !badges.isEmpty {
                                 Text("·")
                                     .font(.caption2)
-                                    .foregroundStyle(.quaternary)
+                                    .foregroundStyle(Color.quaternary)
                             }
                             entryRowTags(badges, disabled: disabled)
                         }
@@ -1574,7 +1574,7 @@ struct UnifiedModelPicker: View {
             VStack(spacing: 8) {
                 Image(systemName: searchText.isEmpty ? "cpu" : "magnifyingglass")
                     .font(.system(size: 28))
-                    .foregroundStyle(.quaternary)
+                    .foregroundStyle(Color.quaternary)
                 Text(searchText.isEmpty ? "No models available" : "No results")
                     .font(.subheadline)
                     .foregroundStyle(Color.secondary)

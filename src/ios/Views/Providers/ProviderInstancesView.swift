@@ -102,7 +102,7 @@ struct ProviderInstancesView: View {
                     VStack(spacing: 8) {
                         Image(systemName: "key.slash")
                             .font(.system(size: 32))
-                            .foregroundStyle(.quaternary)
+                            .foregroundStyle(Color.quaternary)
                         Text("No providers configured")
                             .font(.subheadline)
                             .foregroundStyle(Color.secondary)
@@ -442,7 +442,7 @@ private struct InstanceRow: View {
                         .foregroundStyle(Color.secondary)
                     Text("·")
                         .font(.caption)
-                        .foregroundStyle(.quaternary)
+                        .foregroundStyle(Color.quaternary)
                     Text(credentialSummary)
                         .font(.caption)
                         .foregroundStyle(credentialDisplay.needsReauth ? AnyShapeStyle(Color.red) : AnyShapeStyle(.secondary))

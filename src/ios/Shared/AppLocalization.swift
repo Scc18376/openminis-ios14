@@ -70,30 +70,11 @@ enum AppBundle {
 ///   - key: the localization key, i.e. the English source string.
 ///   - comment: translator context, kept so `genstrings`-style extraction and
 ///     the String Catalog continue to see it.
-@_disfavoredOverload
-func AppLocalized(_ key: String.LocalizationValue, comment: StaticString? = nil) -> String {
-    // Interpolated keys ("\(n) chats") and LocalizationValue variables land
-    // here; plain literals take the cached StaticString overload below.
-    String(localized: key, bundle: AppBundle.current, comment: comment)
-}
-
-/// [T-composer-typing-lag] Plain-literal keys — the vast majority of call
-/// sites — resolve here and are memoized per bundle. On iOS 16 each
-/// `String(localized:)` re-resolves the bundle and re-reads the strings table
-/// (NSBundle initWithPath / preferredLocalizations / localizedStringForKey…),
-/// ~25% of the main thread in a Time Profiler trace while a reply streamed,
-/// mostly from ToolCapsuleView / AIChatView bodies re-running per token.
-///
-/// The `LocalizationValue` overload is `@_disfavoredOverload`, so a literal
-/// without interpolation picks this one at compile time and the key is known
-/// exactly. (A first attempt recovered the key from a `LocalizationValue` by
-/// reflection; its layout differs on iOS 16, so the cache never hit there.)
-func AppLocalized(_ key: StaticString, comment: StaticString? = nil) -> String {
+func AppLocalized(_ key: String, comment: StaticString? = nil) -> String {
     let bundle = AppBundle.current
-    let plain = key.description
-    if let hit = LocalizedStringCache.lookup(plain, bundle: bundle) { return hit }
-    let value = String(localized: String.LocalizationValue(plain), bundle: bundle, comment: comment)
-    LocalizedStringCache.store(value, for: plain, bundle: bundle)
+    if let hit = LocalizedStringCache.lookup(key, bundle: bundle) { return hit }
+    let value = bundle.localizedString(forKey: key, value: key, table: nil)
+    LocalizedStringCache.store(value, for: key, bundle: bundle)
     return value
 }
 
