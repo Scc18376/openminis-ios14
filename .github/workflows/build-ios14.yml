@@ -38,7 +38,9 @@ jobs:
       - name: Cache native frameworks
         uses: actions/cache@v4
         with:
-          path: deps/frameworks
+          path: |
+            deps/frameworks
+            deps/resources
           key: minis-deps-${{ hashFiles('deps/build_*.sh') }}
 
       - uses: actions/setup-go@v5
@@ -69,6 +71,9 @@ jobs:
           ./build_ish.sh
           echo "--- frameworks ---"
           ls -d frameworks/*.xcframework 2>/dev/null || true
+          echo "--- preparing alpine rootfs ---"
+          ./prepare_alpine_rootfs.sh
+          ls -la resources/ | head
         env:
           BUILDCONFIGURATION: Release
 
@@ -76,7 +81,9 @@ jobs:
         if: always()
         uses: actions/cache/save@v4
         with:
-          path: deps/frameworks
+          path: |
+            deps/frameworks
+            deps/resources
           key: minis-deps-${{ hashFiles('deps/build_*.sh') }}
 
       - name: Provider config
