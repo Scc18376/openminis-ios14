@@ -49,7 +49,6 @@ jobs:
           cache-dependency-path: deps/rclone-mobile/go.sum
 
       - name: Install build tools
-        if: ${{ !inputs.skip_deps }}
         run: |
           brew install pkg-config ninja llvm lld libarchive nasm || true
           echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
@@ -74,15 +73,6 @@ jobs:
         env:
           BUILDCONFIGURATION: Release
 
-      - name: Save frameworks cache
-        if: always()
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            deps/frameworks
-            deps/resources
-          key: minis-deps-${{ hashFiles('deps/build_*.sh') }}
-
       - name: Prepare alpine rootfs
         run: |
           cd deps
@@ -92,6 +82,15 @@ jobs:
             ./prepare_alpine_rootfs.sh
           fi
           ls -la resources/ | head -10
+
+      - name: Save frameworks cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            deps/frameworks
+            deps/resources
+          key: minis-deps-${{ hashFiles('deps/build_*.sh') }}
 
       - name: Provider config
         run: |
