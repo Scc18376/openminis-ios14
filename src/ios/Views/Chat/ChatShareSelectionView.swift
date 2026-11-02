@@ -169,7 +169,7 @@ struct ChatShareSelectionView: View {
                 .disabled(selection.isEmpty)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
-                .background(.bar)
+                .background(Color(UIColor.systemBackground))
             }
             .sheet(isPresented: $showOptions) {
                 ChatSharePreviewSheet(
@@ -534,7 +534,7 @@ private struct ChatSharePreviewSheet: View {
         }
         .padding(.top, 8)
         .padding(.bottom, 4)
-        .background(.bar)
+        .background(Color(UIColor.systemBackground))
     }
 
     private func controlItem(icon: String, label: String, active: Bool, disabled: Bool = false,
@@ -581,7 +581,7 @@ private struct ChatSharePreviewSheet: View {
                                 .foregroundStyle(Color.secondary)
                         }
                         .padding(20)
-                        .background(RoundedRectangle(cornerRadius: 14).fill(.regularMaterial))
+                        .background(RoundedRectangle(cornerRadius: 14).fill(Color(UIColor.secondarySystemBackground)))
                     } else if let errorText, rendered[key] == nil {
                         Text(errorText).foregroundStyle(.red).padding()
                     }
@@ -849,7 +849,7 @@ private struct ChatShareFloatingButtonSurface: ViewModifier {
         } else {
             content
                 .buttonStyle(.plain)
-                .background(.ultraThinMaterial, in: Capsule())
+                .background(Color(UIColor.tertiarySystemBackground), in: Capsule())
                 .overlay(Capsule().strokeBorder(Color.primary.opacity(0.08), lineWidth: 0.5))
                 .shadow(color: .black.opacity(colorScheme == .dark ? 0.35 : 0.10), radius: 6, y: 2)
         }

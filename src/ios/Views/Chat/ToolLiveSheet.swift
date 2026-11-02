@@ -669,7 +669,7 @@ struct FloatingToolBar: View {
                 // 1 Hz re-evaluation while any agent runs. This tick is also
                 // what drives the follow decision — see below. Each tick takes
                 // a fresh snapshot: block states move between ticks.
-                TimelineView(.periodic(from: Date(), by: 1)) { ctx in
+                MinisTimelineView(.periodic(from: Date(), by: 1)) { ctx in
                     collapsedBar(now: ctx.date)
                         .onChange(of: ctx.date) { _ in tickFollow() }
                 }

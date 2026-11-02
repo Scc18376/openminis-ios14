@@ -329,7 +329,7 @@ struct AudioPiPCapsule: View {
         .frame(width: 160, height: 40)
         .background {
             Capsule()
-                .fill(.ultraThinMaterial)
+                .fill(Color(UIColor.tertiarySystemBackground))
                 .overlay(
                     Capsule()
                         .fill(

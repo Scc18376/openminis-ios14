@@ -513,7 +513,7 @@ struct ScheduledTaskDetailView: View {
                 Text(copiedToast)
                     .font(.footnote.weight(.semibold))
                     .padding(.horizontal, 14).padding(.vertical, 8)
-                    .background(.ultraThinMaterial, in: Capsule())
+                    .background(Color(UIColor.tertiarySystemBackground), in: Capsule())
                     .padding(.bottom, 24)
                     .transition(.opacity)
             }
@@ -1126,7 +1126,7 @@ struct ScheduledPillFace: View {
         }
         .padding(.trailing, Self.clockTrailing)
         .background {
-            Capsule().fill(.regularMaterial)
+            Capsule().fill(Color(UIColor.secondarySystemBackground))
             Capsule().fill(ScheduledAccent.color.opacity(0.06))
         }
         .clipShape(Capsule())
@@ -1209,7 +1209,7 @@ struct ScheduledTaskBanner: View {
     var body: some View {
         Group {
             if isShown {
-                TimelineView(.periodic(from: .now, by: 1)) { context in
+                MinisTimelineView(.periodic(from: .now, by: 1)) { context in
                     if let state = ScheduledBannerModel.state(snapshot()) {
                         card(state, now: context.date)
                     }

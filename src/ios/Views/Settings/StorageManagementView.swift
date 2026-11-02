@@ -878,7 +878,7 @@ struct StorageManagementView: View {
                     .padding(.bottom, 8)
             }
         }
-        .background(.bar)
+        .background(Color(UIColor.systemBackground))
     }
 
     private func confirm(_ action: StorageManagementViewModel.SessionAction, _ ids: [String]) {

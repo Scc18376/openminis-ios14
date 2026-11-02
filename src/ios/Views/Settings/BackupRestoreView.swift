@@ -1329,7 +1329,7 @@ struct ServerPackageListView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             // A bar, not a card: full-bleed background with a hairline under
             // it, which is what a pinned location bar looks like on iOS.
-            .background(.bar)
+            .background(Color(UIColor.systemBackground))
 
             Divider()
         }

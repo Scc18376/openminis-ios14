@@ -445,7 +445,7 @@ extension WebViewHolder: WKUIDelegate {
         }
         if owner == nil {
             owner = UIApplication.shared.connectedScenes
-                .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+                .compactMap { ($0 as? UIWindowScene)?.windows.first(where: { $0.isKeyWindow }) }
                 .first?.rootViewController
         }
         guard var top = owner else { return nil }
@@ -793,7 +793,7 @@ struct MinisSafariView: View {
                 .frame(width: 44, height: 44)
                 .background(
                     Circle()
-                        .fill(.ultraThinMaterial)
+                        .fill(Color(UIColor.tertiarySystemBackground))
                 )
                 .overlay(
                     Circle()
@@ -884,7 +884,7 @@ struct MinisLinkPreviewView: View {
                 .ignoresSafeArea(.keyboard)
                 .navigationTitle(holder.pageTitle.isEmpty ? (url.host ?? url.absoluteString) : holder.pageTitle)
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+                .toolbarBackground(Color(UIColor.tertiarySystemBackground), for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {

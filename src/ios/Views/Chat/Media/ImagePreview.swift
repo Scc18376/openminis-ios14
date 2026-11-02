@@ -431,7 +431,7 @@ struct ImagePreviewView: View {
                             .foregroundStyle(ChatColors.primaryText)
                             .frame(width: 44, height: 44)
                             .contentShape(Circle())
-                            .background(.ultraThinMaterial, in: Circle())
+                            .background(Color(UIColor.tertiarySystemBackground), in: Circle())
                     }
 
                     Spacer()
@@ -450,7 +450,7 @@ struct ImagePreviewView: View {
                             .foregroundStyle(copyDone ? .green : ChatColors.primaryText)
                             .frame(width: 44, height: 44)
                             .contentShape(Circle())
-                            .background(.ultraThinMaterial, in: Circle())
+                            .background(Color(UIColor.tertiarySystemBackground), in: Circle())
                     }
                     .disabled(copyDone)
 
@@ -477,7 +477,7 @@ struct ImagePreviewView: View {
                         .foregroundStyle(ChatColors.primaryText)
                         .frame(width: 44, height: 44)
                         .contentShape(Circle())
-                        .background(.ultraThinMaterial, in: Circle())
+                        .background(Color(UIColor.tertiarySystemBackground), in: Circle())
                     }
                     .disabled(saveStatus == .saving || saveStatus == .saved)
 
@@ -493,7 +493,7 @@ struct ImagePreviewView: View {
                             .foregroundStyle(ChatColors.primaryText)
                             .frame(width: 44, height: 44)
                             .contentShape(Circle())
-                            .background(.ultraThinMaterial, in: Circle())
+                            .background(Color(UIColor.tertiarySystemBackground), in: Circle())
                     }
 
                     // Share button
@@ -509,7 +509,7 @@ struct ImagePreviewView: View {
                             .foregroundStyle(ChatColors.primaryText)
                             .frame(width: 44, height: 44)
                             .contentShape(Circle())
-                            .background(.ultraThinMaterial, in: Circle())
+                            .background(Color(UIColor.tertiarySystemBackground), in: Circle())
                     }
                 }
                 .padding(.horizontal)
@@ -565,7 +565,7 @@ struct AsyncImagePreviewView: View {
                         .foregroundStyle(ChatColors.primaryText)
                         .frame(width: 44, height: 44)
                         .contentShape(Circle())
-                        .background(.ultraThinMaterial, in: Circle())
+                        .background(Color(UIColor.tertiarySystemBackground), in: Circle())
                 }
                 .padding(.horizontal)
                 .padding(.top, 2)

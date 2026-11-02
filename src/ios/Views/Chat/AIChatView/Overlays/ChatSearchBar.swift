@@ -84,7 +84,7 @@ struct ChatSearchBar: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
-        .background(.bar)
+        .background(Color(UIColor.systemBackground))
         .overlay(alignment: .bottom) { Divider() }
         .overlay(alignment: .bottom) { noticeView.offset(y: 34) }
         .onAppear { fieldFocused = true }

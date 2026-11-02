@@ -683,7 +683,7 @@ private struct UserAskPendingCard: View {
                     .foregroundStyle(ChatColors.secondaryText)
             }
             if let expires = ask.expiresAt {
-                TimelineView(.periodic(from: .now, by: 1)) { ctx in
+                MinisTimelineView(.periodic(from: .now, by: 1)) { ctx in
                     let left = max(0, Int(expires.timeIntervalSince(ctx.date)))
                     Label(String(format: "%d:%02d", left / 60, left % 60), systemImage: "timer")
                         .font(.system(size: t.meta, weight: .medium).monospacedDigit())

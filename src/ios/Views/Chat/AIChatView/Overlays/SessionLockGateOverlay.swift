@@ -84,7 +84,7 @@ struct SessionLockGateOverlay: View {
     private var gateView: some View {
         ZStack {
             Rectangle()
-                .fill(.regularMaterial)
+                .fill(Color(UIColor.secondarySystemBackground))
                 .ignoresSafeArea()
                 .overlay {
                     Color(UIColor.systemBackground).opacity(0.4)

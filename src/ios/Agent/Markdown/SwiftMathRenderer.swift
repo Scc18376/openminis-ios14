@@ -35,7 +35,7 @@ enum SwiftMathRenderer {
     static var interfaceStyle: UIUserInterfaceStyle {
         guard Thread.isMainThread else { return UITraitCollection.current.userInterfaceStyle }
         let window = UIApplication.shared.connectedScenes
-            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+            .compactMap { ($0 as? UIWindowScene)?.windows.first(where: { $0.isKeyWindow }) }
             .first
         guard let window else { return UITraitCollection.current.userInterfaceStyle }
         if window.overrideUserInterfaceStyle != .unspecified {

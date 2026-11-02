@@ -79,13 +79,6 @@ public struct _MinisForegroundStyle<S: ShapeStyle>: ViewModifier {
         if let g = s as? LinearGradient { return g.gradient.stops.first?.color ?? .primary }
         if let g = s as? AngularGradient { return g.gradient.stops.first?.color ?? .primary }
         if let g = s as? RadialGradient { return g.gradient.stops.first?.color ?? .primary }
-        if let m = s as? Material {
-            switch m {
-            case .ultraThinMaterial, .thinMaterial: return Color(UIColor.tertiarySystemFill)
-            case .regularMaterial, .thickMaterial: return Color(UIColor.secondarySystemFill)
-            default: return Color(UIColor.systemBackground)
-            }
-        }
         return .primary
     }
 }
@@ -169,4 +162,55 @@ public extension View {
     @inlinable func contentMargins(_ value: CGFloat, for placement: Int = 0) -> some View { self }
     @inlinable func badge(_ count: Int) -> some View { self }
     @inlinable func badge(_ text: String) -> some View { self }
+}
+
+// MARK: - controlSize (iOS 15+)
+
+public enum MinisControlSize: Hashable { case mini, small, regular, large, extraLarge }
+
+public extension View {
+    @inlinable
+    func controlSize(_ size: MinisControlSize) -> some View { self }
+}
+
+// MARK: - TimelineView (iOS 15+)
+
+public struct MinisTimelineSchedule {
+    /// .animation
+    public static var animation: MinisTimelineSchedule { MinisTimelineSchedule(live: true, interval: 1.0 / 30.0) }
+    /// .periodic(from:by:)
+    public static func periodic(from start: Date, by interval: TimeInterval) -> MinisTimelineSchedule {
+        MinisTimelineSchedule(live: false, interval: interval)
+    }
+    let live: Bool
+    let interval: TimeInterval
+    public init(live: Bool = false, interval: TimeInterval = 1) {
+        self.live = live
+        self.interval = interval
+    }
+}
+
+public struct MinisTimelineContext {
+    public let date: Date
+    public let cadence: MinisTimelineSchedule
+}
+
+public struct MinisTimelineView<Content: View>: View {
+    private let schedule: MinisTimelineSchedule
+    private let content: (MinisTimelineContext) -> Content
+    @State private var now = Date()
+
+    public init(_ schedule: MinisTimelineSchedule,
+                @ViewBuilder content: @escaping (MinisTimelineContext) -> Content) {
+        self.schedule = schedule
+        self.content = content
+    }
+
+    public var body: some View {
+        content(MinisTimelineContext(date: now, cadence: schedule))
+            .onReceive(Timer.publish(every: max(schedule.interval, 1.0 / 60.0),
+                                     on: .main, in: .common).autoconnect()) { date in
+                self.now = date
+            }
+    }
 }

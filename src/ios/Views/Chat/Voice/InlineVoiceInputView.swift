@@ -1169,7 +1169,7 @@ struct InlineVoiceInputView: View {
                     .shadow(color: .black.opacity(0.18), radius: expanded ? 7 : 5, y: expanded ? 3 : 2)
 
                 if viewModel.isTranscribing {
-                    TimelineView(.animation) { context in
+                    MinisTimelineView(.animation) { context in
                         let t = context.date.timeIntervalSinceReferenceDate
                         let angle = Angle(degrees: (t / 0.9).truncatingRemainder(dividingBy: 1) * 360)
                         // [T-voice-ring-inside] Inside the white disc, flush with

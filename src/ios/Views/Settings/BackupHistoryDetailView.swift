@@ -417,7 +417,7 @@ struct BackupHistoryDetailView: View {
 /// had started.
 ///
 /// So the angle is now COMPUTED from the current time instead of animated
-/// towards: `TimelineView(.animation)` re-evaluates each frame and the
+/// towards: `MinisTimelineView(.animation)` re-evaluates each frame and the
 /// rotation is a pure function of the timestamp. There is no animation object
 /// to duplicate, cancel, or leave running, which makes both the original
 /// stall and the acceleration unrepresentable rather than merely handled.
@@ -432,11 +432,11 @@ private struct BackupRunningIndicator: View {
 
     var body: some View {
         // The angle is COMPUTED from the current time rather than animated
-        // towards. `TimelineView(.animation)` re-evaluates the body each frame
+        // towards. `MinisTimelineView(.animation)` re-evaluates the body each frame
         // and the rotation is a pure function of the timestamp, so there is no
         // animation in flight to duplicate, restart, or leave running — the
         // failure mode below is unrepresentable rather than merely avoided.
-        TimelineView(.animation) { context in
+        MinisTimelineView(.animation) { context in
             let t = context.date.timeIntervalSinceReferenceDate
             let turns = t / Self.secondsPerTurn
             Image(systemName: "arrow.triangle.2.circlepath")

@@ -949,7 +949,7 @@ struct ContentView: View {
                         // [T-ios-hud-spinner-contrast] Tint the spinner with the
                         // adaptive label colour (GH#333).
                         //
-                        // The card behind it is `.ultraThinMaterial`, which is
+                        // The card behind it is `Color(UIColor.tertiarySystemBackground)`, which is
                         // LIGHT in light mode. An untinted ProgressView takes
                         // the ambient tint rather than the label colour, and
                         // over a pale material that lands close to the
@@ -971,7 +971,7 @@ struct ContentView: View {
                         }
                     }
                     .padding(24)
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+                    .background(Color(UIColor.tertiarySystemBackground), in: RoundedRectangle(cornerRadius: 16))
                 }
                 .transition(.opacity)
                 .animation(.easeInOut(duration: 0.2), value: isExporting)

@@ -244,7 +244,7 @@ private struct FolderSurface: ViewModifier {
                 }
             } else {
                 if #available(iOS 26.0, *) {
-                    content.background(shape.fill(.regularMaterial))
+                    content.background(shape.fill(Color(UIColor.secondarySystemBackground)))
                 } else {
                     content.background(shape.fill(Color(UIColor.secondarySystemBackground)))
                 }

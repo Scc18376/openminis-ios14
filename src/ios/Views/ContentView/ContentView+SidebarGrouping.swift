@@ -558,7 +558,7 @@ extension ContentView {
         .padding(.trailing, 8)
         .frame(height: 48)
         .frame(maxWidth: 320)
-        .background(.ultraThinMaterial, in: Capsule())
+        .background(Color(UIColor.tertiarySystemBackground), in: Capsule())
         .overlay(Capsule().stroke(Color(UIColor.separator).opacity(0.5), lineWidth: 0.5))
         .shadow(color: Color.black.opacity(0.15), radius: 8, y: 2)
         .padding(.top, 8)

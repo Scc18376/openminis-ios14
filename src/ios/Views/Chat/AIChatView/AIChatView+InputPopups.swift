@@ -297,7 +297,7 @@ extension AIChatView {
     /// or stroke on this path — the material draws its own edge highlight
     /// and lift, and stacking extra ones reads as a dark halo.
     ///
-    /// Below iOS 26: `.regularMaterial` blur (thick enough that the chat
+    /// Below iOS 26: `Color(UIColor.secondarySystemBackground)` blur (thick enough that the chat
     /// underneath never fights the row text) plus a hairline edge highlight
     /// and a soft two-layer shadow, approximating the glass look.
     ///
@@ -331,7 +331,7 @@ extension AIChatView {
                     .clipShape(shape)
             } else {
                 content
-                    .background(.regularMaterial, in: shape)
+                    .background(Color(UIColor.secondarySystemBackground), in: shape)
                     .clipShape(shape)
                     .overlay(
                         shape.strokeBorder(Self.edgeHighlight, lineWidth: 0.5)

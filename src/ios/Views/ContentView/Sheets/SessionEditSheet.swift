@@ -140,7 +140,7 @@ struct SpinningRing: View {
     let color: Color
 
     var body: some View {
-        TimelineView(.animation) { timeline in
+        MinisTimelineView(.animation) { timeline in
             let angle = timeline.date.timeIntervalSinceReferenceDate.remainder(dividingBy: 1.0) * 360
             Circle()
                 .trim(from: 0, to: 0.3)

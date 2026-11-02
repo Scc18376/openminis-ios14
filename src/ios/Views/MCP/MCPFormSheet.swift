@@ -159,7 +159,7 @@ struct MCPFormSheet: View {
                 .disabled(!canSave)
                 .padding(.horizontal)
                 .padding(.vertical, 12)
-                .background(.bar)
+                .background(Color(UIColor.systemBackground))
             }
             // Self-dismissing "Copied" capsule, mirroring FileBrowserView.
             .overlay(alignment: .bottom) {

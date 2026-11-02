@@ -333,7 +333,7 @@ private struct ImportSkillSheet: View {
                 if isImporting {
                     ProgressView("Importing…")
                         .padding()
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                        .background(Color(UIColor.tertiarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
                 }
             }
             .sheet(isPresented: $showFilePicker) {
@@ -932,7 +932,7 @@ private struct SkillFileDetailView: View {
                         .foregroundStyle(.red)
                         .font(.caption)
                         .padding(8)
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
+                        .background(Color(UIColor.tertiarySystemBackground), in: RoundedRectangle(cornerRadius: 8))
                         .padding()
                 }
             }

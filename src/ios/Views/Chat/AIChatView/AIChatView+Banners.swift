@@ -158,7 +158,7 @@ extension AIChatView {
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
         .background {
-            RoundedRectangle(cornerRadius: 14, style: .continuous).fill(.regularMaterial)
+            RoundedRectangle(cornerRadius: 14, style: .continuous).fill(Color(UIColor.secondarySystemBackground))
             RoundedRectangle(cornerRadius: 14, style: .continuous).fill(Color.red.opacity(0.08))
         }
         .overlay(

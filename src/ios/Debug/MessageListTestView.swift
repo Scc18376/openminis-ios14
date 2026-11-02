@@ -616,7 +616,7 @@ struct MessageListTestView: View {
         }
         .padding(10)
         .frame(maxWidth: 280)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+        .background(Color(UIColor.tertiarySystemBackground), in: RoundedRectangle(cornerRadius: 10))
         .padding(.trailing, 8)
         .padding(.top, 8)
         .accessibilityIdentifier("jitterOverlay")

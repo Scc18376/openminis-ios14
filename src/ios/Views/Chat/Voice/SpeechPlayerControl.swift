@@ -354,12 +354,12 @@ struct SpeechPlayerControl: View {
 
     private static func safeAreaTopInset() -> CGFloat {
         UIApplication.shared.connectedScenes
-            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+            .compactMap { ($0 as? UIWindowScene)?.windows.first(where: { $0.isKeyWindow }) }
             .first?.safeAreaInsets.top ?? 47
     }
     private static func safeAreaBottomInset() -> CGFloat {
         UIApplication.shared.connectedScenes
-            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+            .compactMap { ($0 as? UIWindowScene)?.windows.first(where: { $0.isKeyWindow }) }
             .first?.safeAreaInsets.bottom ?? 34
     }
 
@@ -369,7 +369,7 @@ struct SpeechPlayerControl: View {
     /// the visible window and the capsule floats mid-content.
     private static func windowBounds() -> CGRect {
         UIApplication.shared.connectedScenes
-            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+            .compactMap { ($0 as? UIWindowScene)?.windows.first(where: { $0.isKeyWindow }) }
             .first?.bounds ?? UIScreen.main.bounds
     }
 
@@ -484,7 +484,7 @@ struct SpeechPlayerControl: View {
         ZStack(alignment: .bottomTrailing) {
             // No shadow — a faint border instead, matching the scroll-to-bottom pill.
             Circle()
-                .fill(.ultraThinMaterial)
+                .fill(Color(UIColor.tertiarySystemBackground))
                 .frame(width: 40, height: 40)
                 .overlay(Circle().stroke(Color.gray.opacity(0.25), lineWidth: 0.5))
             speakerGlyph(size: 15, ring: 40).frame(width: 40, height: 40)
@@ -552,7 +552,7 @@ struct SpeechPlayerControl: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
         .frame(width: Self.volumeRowWidth)
-        .background(Capsule().fill(.ultraThinMaterial))
+        .background(Capsule().fill(Color(UIColor.tertiarySystemBackground)))
         .overlay(Capsule().stroke(Color.gray.opacity(0.25), lineWidth: 0.5))
         .accessibilityElement(children: .contain)
     }
@@ -618,7 +618,7 @@ struct SpeechPlayerControl: View {
         .padding(.horizontal, 14)
         .padding(.vertical, 9)
         // No shadow — a faint border instead, matching the scroll-to-bottom pill.
-        .background(Capsule().fill(.ultraThinMaterial))
+        .background(Capsule().fill(Color(UIColor.tertiarySystemBackground)))
         .overlay(Capsule().stroke(Color.gray.opacity(0.25), lineWidth: 0.5))
         // Drag to reposition. Highest priority so the outer tap-to-dismiss layer
         // doesn't steal it.
@@ -653,7 +653,7 @@ struct SpeechPlayerControl: View {
 // MARK: - Synthesizing loading ring (rotating 75° arc)
 
 /// A thin blue 75° arc traced on a `diameter`-wide circle, spinning continuously
-/// while cloud TTS audio is being generated. Driven by `TimelineView(.animation)`
+/// while cloud TTS audio is being generated. Driven by `MinisTimelineView(.animation)`
 /// so it keeps spinning across compact↔expand morphs (no onAppear restart needed).
 private struct RotatingArc: View {
     let diameter: CGFloat
@@ -663,7 +663,7 @@ private struct RotatingArc: View {
     private let period: Double = 0.9
 
     var body: some View {
-        TimelineView(.animation) { context in
+        MinisTimelineView(.animation) { context in
             let t = context.date.timeIntervalSinceReferenceDate
             let angle = Angle(degrees: (t / period).truncatingRemainder(dividingBy: 1) * 360)
             Circle()

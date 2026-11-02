@@ -103,7 +103,7 @@ struct AIDataSharingConsentView: View {
                     .font(.body)
                 }
                 .padding()
-                .background(.bar)
+                .background(Color(UIColor.systemBackground))
             }
         }
     }

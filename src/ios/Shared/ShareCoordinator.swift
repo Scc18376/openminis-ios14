@@ -11,7 +11,7 @@ private let shareLog = AppLogger(category: "Share")
 enum ShareFeedbackToast {
     static func show(_ message: String, duration: TimeInterval = 3.0) {
         guard let window = UIApplication.shared.connectedScenes
-            .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+            .compactMap({ ($0 as? UIWindowScene)?.windows.first(where: { $0.isKeyWindow }) })
             .first else { return }
 
         let label = UILabel()

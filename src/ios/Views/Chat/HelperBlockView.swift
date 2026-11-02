@@ -1304,7 +1304,7 @@ struct ReattachingSpinner: View {
     var color: Color = .accentColor
 
     var body: some View {
-        TimelineView(.animation) { ctx in
+        MinisTimelineView(.animation) { ctx in
             let t = ctx.date.timeIntervalSinceReferenceDate
             let angle = t.truncatingRemainder(dividingBy: 1.0) * 360
             Circle()
